@@ -1,0 +1,84 @@
+{% extends 'base.html' %}
+
+<html>
+
+<head>
+  <title>
+    {% block title %}Create Employee{% endblock %}
+  </title>
+</head>
+
+
+<body>
+
+  {% block content %}
+  {% if single_emp.id %}
+  <h1>View/Update Employee</h1>
+  {% else %}
+  <h1>Create Employee</h1>
+  {% endif %}
+
+  <hr>
+
+  <form method="post" action="{% url 'create_emp' %}" class="row g-3 needs-validation">
+    {% csrf_token %}
+
+    {% if single_emp %}
+    <div class="col-md-3">
+      <label for="validationCustom01" class="form-label">ID</label>
+      <input type="text" class="form-control" id="validationCustom01" name="id" value="{{single_emp.id}}" readonly>
+    </div>
+    {% endif %}
+
+    <div class="col-md-3">
+      <label for="validationCustom01" class="form-label">Name</label>
+      <input type="text" class="form-control" id="validationCustom01" name="nm" value="{{single_emp.name}}" required>
+    </div>
+    <div class="col-md-3">
+      <label for="validationCustom02" class="form-label">Email</label>
+      <input type="email" class="form-control" id="validationCustom02" name="em" value="{{single_emp.email}}" required>
+    </div>
+    <div class="col-md-3">
+      <label for="validationCustomUsername" class="form-label">Mobile</label>
+      <input type="number" class="form-control" id="validationCustom02" name="mb" value="{{single_emp.mobile_num}}"
+        required>
+    </div>
+    <div class="col-md-3">
+      <label for="validationCustom01" class="form-label">Designation</label>
+      <input type="text" class="form-control" id="validationCustom01" name="desn" value="{{single_emp.designation}}"
+        required>
+    </div>
+
+    <div class="col-md-3">
+      <label for="salaryRange" class="form-label">Salary</label>
+      <input type="range" class="form-range" min="0" max="10000" step="1000" name="sal" id="salaryRange"
+        value="{{single_emp.salary}}" required>
+      <span id="salaryValue">0</span> <!-- Initial value displayed -->
+    </div>
+    <div class="col-12">
+      {% if single_emp %}
+      <button class="btn btn-primary" type="submit">Update</button>
+      {% else %}
+      <button class="btn btn-primary" type="submit">Submit</button>
+      {% endif %}
+    </div>
+  </form>
+
+
+  <script>
+    const salaryRange = document.getElementById('salaryRange');
+    const salaryValue = document.getElementById('salaryValue');
+
+    // Set initial value display
+    salaryValue.textContent = salaryRange.value;
+
+    // Update value display on input change
+    salaryRange.addEventListener('input', function () {
+      salaryValue.textContent = this.value;
+    });
+  </script>
+
+  {% endblock %}
+</body>
+
+</html>
